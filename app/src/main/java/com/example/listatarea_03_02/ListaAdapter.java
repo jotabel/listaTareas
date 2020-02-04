@@ -1,5 +1,6 @@
 package com.example.listatarea_03_02;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,10 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.MiVistaHolder> {
+public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.MiVistaHolder> implements View.OnClickListener{
 
     private ArrayList<ListaItem> miLista;
     private final int [] colores={R.drawable.ic_green, R.drawable.ic_yellow, R.drawable.ic_red};//añadir aqui las imagenes
+    private View.OnClickListener listener;
 
     public ListaAdapter(ArrayList<ListaItem>al){
         miLista=al;
@@ -36,7 +38,12 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.MiVistaHolde
     @NonNull
     @Override
     public ListaAdapter.MiVistaHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+
+        LayoutInflater inflater=LayoutInflater.from(parent.getContext());
+        View v =inflater.inflate(R.layout.lista_layout,parent,false);
+        v.setOnClickListener(this);
+
+        return new MiVistaHolder(v);
     }
 
     @Override
@@ -57,6 +64,16 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.MiVistaHolde
                 holder.iv.setImageResource(colores[2]);
         }
 
+    }
+
+    public void setOnClickListener(View.OnClickListener lis){
+        listener=lis;
+    }
+
+    public void onClick(View v ){
+        if(listener!=null){
+            listener.onClick(v);
+        }
     }
 
     @Override

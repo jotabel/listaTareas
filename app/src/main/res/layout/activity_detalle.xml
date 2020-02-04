@@ -7,12 +7,12 @@
     tools:context=".ActivityDetalle">
 
     <TextView
-        android:id="@+id/tvTitulo"
+        android:id="@+id/tvDTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
         android:background="#00193257"
-        android:text="TextView"
+        android:text="@string/titulo"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,16 +23,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="TextView"
+        android:text="@string/nomTarea"
         app:layout_constraintStart_toStartOf="@+id/tvDlugar"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitulo" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDTitulo" />
 
     <TextView
         android:id="@+id/tvDlugar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="TextView"
+        android:text="@string/lugTarea"
         app:layout_constraintStart_toStartOf="@+id/tvDImp"
         app:layout_constraintTop_toBottomOf="@+id/tvDNombre" />
 
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="TextView"
+        android:text="@string/imporTarea"
         app:layout_constraintStart_toStartOf="@+id/tvDDesc"
         app:layout_constraintTop_toBottomOf="@+id/tvDlugar" />
 
@@ -51,7 +51,7 @@
         android:layout_height="120dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="50dp"
-        android:text="TextView"
+        android:text="@string/descTarea"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDImp" />
 
@@ -70,7 +70,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="Button"
+        android:onClick="volver"
+        android:text="@string/btnVolver"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDDesc" />
