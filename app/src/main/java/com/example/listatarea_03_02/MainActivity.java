@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recView;
     private ArrayList<ListaItem> miLista;
     ListaAdapter adapter;
-    public final static String BASE ="listaTarea1";
+    public final static String BASE ="bdTarea1";
 
 
 
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         recView=findViewById(R.id.recView);
 
         obtenerRegistros();
+        ponerGestos();
 
     }
 
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         BaseDatosHelper conexion = new BaseDatosHelper(this,BASE,null,1);
         SQLiteDatabase base=conexion.getReadableDatabase();
 
-        Cursor cursor = base.rawQuery("select ROWID, nombre, lugar, descripcion, importancia " +
+        Cursor cursor = base.rawQuery("select rowid, nombre, lugar, descripcion, importancia " +
                 " from "+BaseDatosHelper.TABLA+" order by importancia desc",null);
         ListaItem item=null;
         while(cursor.moveToNext()){
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void ponerGestos(){
 
-        ItemTouchHelper.SimpleCallback ith = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        ItemTouchHelper.SimpleCallback ith = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -156,8 +157,18 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
+                if (direction==ItemTouchHelper.RIGHT){
+
+                    Intent i= new Intent(MainActivity.this, ActivityCrear.class);
+                    i.putExtra(ROWID,elemento.getRowid());
+                    startActivity(i);
+
+                }
+
+
             }
         };
+
 
     }
 

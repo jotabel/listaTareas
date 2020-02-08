@@ -36,7 +36,7 @@ public class ActivityDetalle extends AppCompatActivity {
         BaseDatosHelper conexion = new BaseDatosHelper(this,MainActivity.BASE, null,1);
         SQLiteDatabase base = conexion.getReadableDatabase();
 
-        Cursor c=base.rawQuery("select ROWID, nombre, lugar, descripción, importancia from "+ BaseDatosHelper.TABLA +" where ROWID = "+rowid,null);
+        Cursor c=base.rawQuery("select rowid , nombre , lugar , descripcion , importancia from " + BaseDatosHelper.TABLA + " where rowid = "+rowid,null);
         if(c.moveToFirst()){
             tvNombre.setText(c.getString(1));
             tvLugar.setText(c.getString(2));

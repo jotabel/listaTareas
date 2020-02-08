@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 public class BaseDatosHelper extends SQLiteOpenHelper {
 
-    public final static String TABLA ="listaTarea1";
+    public final static String TABLA ="bdTarea1";
     public final static String CAMPO1="nombre";
     public final static String CAMPO2="lugar";
     public final static String CAMPO3="descripcion";
@@ -23,7 +23,7 @@ public class BaseDatosHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("create table "+TABLA+" ("+CAMPO1+" varchar(40) not null,"
+        db.execSQL("create table "+TABLA+" (rowid integer primary key autoincrement, "+CAMPO1+" varchar(40) not null,"
                 +CAMPO2+" varchar(40) not null,"
                 +CAMPO3+" text not null,"
                 +CAMPO4+" int not null)");

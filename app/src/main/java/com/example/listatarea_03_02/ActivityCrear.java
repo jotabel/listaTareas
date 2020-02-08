@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,15 +12,18 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.os.Bundle;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ActivityCrear extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    private TextView tvTitulo;
     private EditText etNombre, etLugar, etDes;
     private Spinner sp;
     ArrayAdapter<CharSequence>  adapter;
     private int importancia;
     String nombre, lugar, descripcion;
+    int rowid=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,12 @@ public class ActivityCrear extends AppCompatActivity implements AdapterView.OnIt
         registro.put(BaseDatosHelper.CAMPO2,lugar);
         registro.put(BaseDatosHelper.CAMPO3,descripcion);
         registro.put(BaseDatosHelper.CAMPO4,importancia);
-        base.insert(BaseDatosHelper.TABLA,null,registro);
+        if(rowid==0){
+            base.insert(BaseDatosHelper.TABLA,null,registro);
+        } else{
+            base.update(BaseDatosHelper.TABLA,registro,"where ROWID ="+rowid,null);
+        }
+
         base.close();
         //Intent i=new Intent();
         setResult(RESULT_OK);
@@ -66,6 +75,49 @@ public class ActivityCrear extends AppCompatActivity implements AdapterView.OnIt
         etLugar=findViewById(R.id.etLugar);
         etDes=findViewById(R.id.etDescripcion);
         sp=findViewById(R.id.spImpor);
+        tvTitulo=findViewById(R.id.tvCTitulo);
+
+        //Si le llegan datos de un intent es porque se querrá actualizar
+        //por lo que vamos a rellenar todos los campos con los datos que tenemos
+        //Primero cargaremos los datos del intent
+
+        Bundle datos=new Bundle();
+        if(!datos.isEmpty()){
+            datos=getIntent().getExtras();
+            rowid=datos.getInt(MainActivity.ROWID);
+            rellenarDatos();
+        }
+
+
+    }
+
+    private void rellenarDatos(){
+
+        BaseDatosHelper conexion = new BaseDatosHelper(this,MainActivity.BASE, null,1);
+        SQLiteDatabase base = conexion.getReadableDatabase();
+
+        Cursor c=base.rawQuery("select ROWID, nombre, lugar, descripcion, importancia from "+ BaseDatosHelper.TABLA +" where ROWID = "+rowid,null);
+        if(c.moveToFirst()){
+            etNombre.setText(c.getString(1));
+            etLugar.setText(c.getString(2));
+            etDes.setText(c.getString(3));
+            importancia=c.getInt(4);
+            tvTitulo.setText("Modificar Tarea");
+        }
+        base.close();
+
+        switch(importancia){
+            case 1:
+                sp.setSelection(0);
+                break;
+            case 2:
+                sp.setSelection(1);
+                break;
+            case 3:
+                sp.setSelection(2);
+                break;
+        }
+
     }
 
 
