@@ -59,7 +59,7 @@ public class ActivityCrear extends AppCompatActivity implements AdapterView.OnIt
         if(rowid==0){
             base.insert(BaseDatosHelper.TABLA,null,registro);
         } else{
-            base.update(BaseDatosHelper.TABLA,registro,"where ROWID ="+rowid,null);
+            base.update(BaseDatosHelper.TABLA,registro,"ROWID ="+rowid,null);
         }
 
         base.close();
@@ -82,8 +82,9 @@ public class ActivityCrear extends AppCompatActivity implements AdapterView.OnIt
         //Primero cargaremos los datos del intent
 
         Bundle datos=new Bundle();
+        datos=getIntent().getExtras();
         if(!datos.isEmpty()){
-            datos=getIntent().getExtras();
+
             rowid=datos.getInt(MainActivity.ROWID);
             rellenarDatos();
         }
@@ -101,7 +102,7 @@ public class ActivityCrear extends AppCompatActivity implements AdapterView.OnIt
             etNombre.setText(c.getString(1));
             etLugar.setText(c.getString(2));
             etDes.setText(c.getString(3));
-            importancia=c.getInt(4);
+            importancia=(Integer) c.getInt(4);
             tvTitulo.setText("Modificar Tarea");
         }
         base.close();

@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
         //-------------------------------------------------
         recView=findViewById(R.id.recView);
 
-        obtenerRegistros();
         ponerGestos();
+        obtenerRegistros();
 
     }
 
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void ponerGestos(){
 
-        ItemTouchHelper.SimpleCallback ith = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback itemTouch = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 if(direction==ItemTouchHelper.LEFT){
                     BaseDatosHelper conexion = new BaseDatosHelper(MainActivity.this,MainActivity.BASE, null,1);
                     SQLiteDatabase base = conexion.getWritableDatabase();
-                    base.delete(BaseDatosHelper.TABLA,"ROWID"+elemento.getRowid(),null);
+                    base.delete(BaseDatosHelper.TABLA,"ROWID="+elemento.getRowid(),null);
                     base.close();
                     //notifico para actualizar recycler
                     miLista.remove(pos);
@@ -168,7 +168,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
-
+        ItemTouchHelper ith = new ItemTouchHelper(itemTouch);
+        ith.attachToRecyclerView(recView);
 
     }
 
